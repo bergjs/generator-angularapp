@@ -90,7 +90,7 @@ AngularappGenerator.prototype.projectfiles = function projectfiles() {
 AngularappGenerator.prototype.bowerFiles = function bowerFiles() {
   bowerPackages = [];
   if(this.angularui){
-    bowerPackages.push('angular-ui-bootstrap');
+    bowerPackages.push('angular-ui-bootstrap-bower');
   }
   if(this.bootstrap){
     bowerPackages.push('bootstrap');
