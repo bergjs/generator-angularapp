@@ -35,25 +35,29 @@ AngularappGenerator.prototype.askFor = function askFor() {
   }.bind(this));
 };
 
-AngularappGenerator.prototype.app = function app() {
+AngularappGenerator.prototype.src = function src() {
   this.mkdir('src/app');
   this.mkdir('src/assets/img');
   this.mkdir('src/common/directives');
   this.mkdir('src/common/resources');
   this.mkdir('src/common/security');
   this.mkdir('src/common/services');
+  this.mkdir('src/less');
+
+  this.copy('_package.json', 'package.json');
+  this.copy('_bower.json', 'bower.json');
+  this.copy('_bootstrap.less', 'src/less/bootstrap.less');
+  this.copy('_variables.less', 'src/less/variables.less');
+};
+
+AngularappGenerator.prototype.test = function test() {
   this.mkdir('test/config');
   this.mkdir('test/unit/app');
   this.mkdir('test/unit/common/directives');
   this.mkdir('test/unit/common/security');
   this.mkdir('test/unit/common/services');
-  this.mkdir('test/vendor/angular');
-  this.mkdir('src/less');
-  this.mkdir('vendor');
-  
 
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
+  this.copy('_unit.js', 'test/config/unit.js');
 };
 
 AngularappGenerator.prototype.projectfiles = function projectfiles() {
