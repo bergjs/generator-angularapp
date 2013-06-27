@@ -2,12 +2,16 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-
+var bowerPackages;
 
 var AngularappGenerator = module.exports = function AngularappGenerator(args, options, config) {
   yeoman.generators.Base.apply(this, arguments);
+ 
+    this.on('end', function () {
+      this.bowerInstall(bowerPackages, { 
+        save: true 
+    });
 
-  this.on('end', function () {
     this.installDependencies({ skipInstall: options['skip-install'] });
   });
 
@@ -24,12 +28,20 @@ AngularappGenerator.prototype.askFor = function askFor() {
 
   var prompts = [{
     type: 'confirm',
-    name: 'appName',
-    message: 'How would you like to call your angular app?'
+    name: 'angularui',
+    message: 'Would you like to use Angular-UI?',
+    default: true
+  },
+  {
+    type: 'confirm',
+    name: 'bootstrap',
+    message: 'Would you like to use Twitter Bootstrap?',
+    default: true
   }];
 
   this.prompt(prompts, function (props) {
-    this.appName = props.appName;
+    this.angularui = props.angularui;
+    this.bootstrap = props.bootstrap;
 
     cb();
   }.bind(this));
@@ -63,4 +75,19 @@ AngularappGenerator.prototype.test = function test() {
 AngularappGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
+  this.copy('bowerrc', '.bowerrc');
+};
+
+AngularappGenerator.prototype.bowerFiles = function bowerFiles() {
+  bowerPackages = [];
+  if(this.angularui){
+    bowerPackages.push('angular-ui-bootstrap');
+  }
+  if(this.bootstrap){
+    bowerPackages.push('bootstrap');
+  }
+  bowerPackages.push('angular');
+  bowerPackages.push('angular-mocks');
+
+
 };
