@@ -23,3 +23,18 @@ Run yo command:
 
     yo angularapp
 
+## Directory Layout
+
+    client --------- main folder for this generator
+      src ---------- your app   
+        app -------- contains your app's code
+        assets ----- 
+        common
+        less
+      test
+        config
+        unit      
+        vendor    --->
+      vendor
+
+
