@@ -27,6 +27,11 @@ AngularappGenerator.prototype.askFor = function askFor() {
   console.log(this.yeoman);
 
   var prompts = [{
+    name: 'appName',
+    message: 'How do you want to call your app?',
+    default: path.basename(process.cwd())
+  },
+  {
     type: 'confirm',
     name: 'angularui',
     message: 'Would you like to use Angular-UI?',
@@ -42,6 +47,7 @@ AngularappGenerator.prototype.askFor = function askFor() {
   this.prompt(prompts, function (props) {
     this.angularui = props.angularui;
     this.bootstrap = props.bootstrap;
+    this.appName = props.appName;
 
     cb();
   }.bind(this));
@@ -56,10 +62,13 @@ AngularappGenerator.prototype.src = function src() {
   this.mkdir('src/common/services');
   this.mkdir('src/less');
 
-  this.copy('_package.json', 'package.json');
+  this.template('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
-  this.copy('_bootstrap.less', 'src/less/bootstrap.less');
-  this.copy('_variables.less', 'src/less/variables.less');
+  this.template('_Gruntfile.js', 'Gruntfile.js');
+  if(this.bootstrap) {
+    this.copy('_bootstrap.less', 'src/less/bootstrap.less');
+    this.copy('_variables.less', 'src/less/variables.less');
+  }
 };
 
 AngularappGenerator.prototype.test = function test() {
@@ -88,6 +97,4 @@ AngularappGenerator.prototype.bowerFiles = function bowerFiles() {
   }
   bowerPackages.push('angular');
   bowerPackages.push('angular-mocks');
-
-
 };
