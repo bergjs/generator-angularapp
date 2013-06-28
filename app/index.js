@@ -60,15 +60,18 @@ AngularappGenerator.prototype.src = function src() {
   this.mkdir('src/common/resources');
   this.mkdir('src/common/security');
   this.mkdir('src/common/services');
-  this.mkdir('src/less');
+  this.mkdir('src/stylesheets');
 
   this.template('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
   this.template('_Gruntfile.js', 'Gruntfile.js');
   if(this.bootstrap) {
-    this.copy('_bootstrap.less', 'src/less/bootstrap.less');
-    this.copy('_variables.less', 'src/less/variables.less');
+    this.copy('_bootstrap.less', 'src/stylesheets/bootstrap.less');
+    this.copy('_variables.less', 'src/stylesheets/variables.less');
+    this.copy('_prefixer.less', 'src/stylesheets/prefixer.less');
   }
+  // general stylesheet
+  this.template('_styles.less', 'src/stylesheets/styles.less');
 };
 
 AngularappGenerator.prototype.test = function test() {

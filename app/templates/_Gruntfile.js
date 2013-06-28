@@ -40,8 +40,8 @@ module.exports = function (grunt) {
       js: ['src/**/*.js', '<%%= distdir %>/templates/**/*.js'],
       specs: ['test/**/*.spec.js'],
       scenarios: ['test/**/*.scenario.js'],
-      html: ['src/index.html'],<% if (bootstrap) { %>
-      bootstrap: ['src/less/bootstrap.less'], // recess:build doesn't accept ** in its file patterns<% } %>
+      html: ['src/index.html'],
+      less: ['src/stylesheets/styles.less'], // recess:build doesn't accept ** in its file patterns
       tpl: {
         app: ['src/app/**/*.tpl.html'],
         common: ['src/common/**/*.tpl.html']
@@ -132,25 +132,25 @@ module.exports = function (grunt) {
         src:['vendor/jquery/*.js'],
         dest: '<%%= distdir %>/jquery.js'
       }
-    },<% if (bootstrap) { %> 
+    },
     recess: {
       build: {
         files: {
-          '<%%= distdir %>/bootstrap.css':
-          ['<%%= src.bootstrap %>'] },
+          '<%%= distdir %>/styles.css':
+          ['<%%= src.less %>'] },
         options: {
           compile: true
         }
       },
       min: {
         files: {
-          '<%%= distdir %>/bootstrap.css': ['<%%= src.bootstrap %>']
+          '<%%= distdir %>/styles.css': ['<%%= src.less %>']
         },
         options: {
           compress: true
         }
       }
-    },<% } %>
+    },
     watch:{
       all: {
         files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
