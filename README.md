@@ -25,16 +25,17 @@ Run yo command:
 
 ## Directory Layout
 
-    client --------- main folder for this generator
-      src ---------- your app   
-        app -------- contains your app's code
-        assets ----- 
-        common
-        less
-      test
-        config
-        unit      
-        vendor    --->
-      vendor
+    client ------------- main folder for this generator (optional)
+      src -------------- your app   
+        app ------------ contains your app's code
+        assets --------- favicon and images
+        common --------- angular files shared between different 
+        styles --------- ...
+            bootstrap -- ...
+      test ------------- the tests for your app
+        config --------- configuration files
+        e2e ------------ end to end tests
+        unit ----------- unit tests      
+      vendor ----------- 3rd party packages
 
 

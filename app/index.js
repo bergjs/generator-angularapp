@@ -77,6 +77,7 @@ AngularappGenerator.prototype.test = function test() {
   this.mkdir('test/unit/common/directives');
   this.mkdir('test/unit/common/security');
   this.mkdir('test/unit/common/services');
+  this.mkdir('test/e2e');
 
   this.copy('_unit.js', 'test/config/unit.js');
 };
