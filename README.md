@@ -26,15 +26,17 @@ Run yo command:
 ## Directory Layout
 
     client ------------- main folder for this generator (optional)
-      src -------------- your app   
-        app ------------ contains your app's code divided into subfolders that represent parts of your app
+      src -------------- source files of your app
+        app ------------ application specific code (divided into subfolders that represent parts of your app)
         assets --------- favicon and images
-        common --------- angular files shared between different parts of your app
-        styles --------- ...
+        common --------- modular angular files shared between different parts of your app
+            directives - angular directives
+            resources -- angular resources
+            security --- angular security
+            services --- angular services
+        styles --------- CSS or SASS files
       test ------------- the tests for your app
         config --------- configuration files
         e2e ------------ end to end tests
         unit ----------- unit tests      
       vendor ----------- 3rd party packages installed by bower (bower components folder)
-
-
