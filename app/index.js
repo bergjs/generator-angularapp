@@ -71,7 +71,7 @@ AngularappGenerator.prototype.src = function src() {
   }
 
   this.copy('index.html', 'src/index.html')
-  this.copy('_app.js', 'src/app')
+  this.copy('_app.js', 'src/app/app.js')
 };
 
 AngularappGenerator.prototype.test = function test() {

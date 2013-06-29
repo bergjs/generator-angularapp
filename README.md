@@ -23,7 +23,7 @@ Run yo command:
 
     yo angularapp
 
-## Directory Layout
+## Directory Layout of Generated App
 
     client ------------- main folder for this generator (optional)
       src -------------- source files of your app
