@@ -8,11 +8,12 @@ var AngularappGenerator = module.exports = function AngularappGenerator(args, op
   yeoman.generators.Base.apply(this, arguments);
  
     this.on('end', function () {
-      this.bowerInstall(bowerPackages, { 
-        save: true 
-    });
+      
+      // this.bowerInstall(bowerPackages, { 
+      //   save: true 
+      // });
 
-    this.installDependencies({ skipInstall: options['skip-install'] });
+    // this.installDependencies({ skipInstall: options['skip-install'] });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
