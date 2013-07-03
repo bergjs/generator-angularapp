@@ -9,6 +9,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Default task.
   grunt.registerTask('default', ['jshint','build','karma:unit']);
@@ -94,12 +95,8 @@ module.exports = function (grunt) {
         src:['vendor/angular/angular.js'],
         dest: '<%%= distdir %>/angular.js'
       },
-      mongo: {
-        src:['vendor/mongolab/*.js'],
-        dest: '<%%= distdir %>/mongolab.js'
-      },
-      // angular ui!
-      bootstrap: {
+      
+      ngBootstrap: {
         src:['vendor/angular-ui/bootstrap/*.js'],
         dest: '<%%= distdir %>/bootstrap.js'
       },
@@ -120,12 +117,8 @@ module.exports = function (grunt) {
         src:['<%%= concat.angular.src %>'],
         dest: '<%%= distdir %>/angular.js'
       },
-      mongo: {
-        src:['vendor/mongolab/*.js'],
-        dest: '<%%= distdir %>/mongolab.js'
-      },
-      bootstrap: {
-        src:['vendor/angular-ui/bootstrap/*.js'],
+      ngBootstrap: {
+        src:['vendor/angular-bootstrap/*.js'],
         dest: '<%%= distdir %>/bootstrap.js'
       },
       jquery: {

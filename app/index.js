@@ -33,14 +33,14 @@ AngularappGenerator.prototype.askFor = function askFor() {
   },
   {
     type: 'confirm',
-    name: 'angularui',
-    message: 'Would you like to use Angular-UI?',
+    name: 'bootstrap',
+    message: 'Would you like to use Twitter Bootstrap?',
     default: true
   },
   {
     type: 'confirm',
-    name: 'bootstrap',
-    message: 'Would you like to use Twitter Bootstrap?',
+    name: 'angularui',
+    message: 'If so, would you like to use Angular-Bootstrap (if not, jQuery is used instead)?',
     default: true
   }];
 

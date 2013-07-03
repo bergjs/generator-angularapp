@@ -16,6 +16,7 @@
     "grunt-contrib-uglify": "~0.1.1",
     "grunt-karma": "~0.4.4",
     "grunt-html2js": "~0.1.0",
-    "grunt-contrib-watch": "~0.3.1"
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-shell": "~0.3.0"
   }
 }
