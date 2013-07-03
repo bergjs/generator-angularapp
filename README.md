@@ -23,18 +23,20 @@ Run yo command:
 
     yo angularapp
 
-## Directory Layout
+## Directory Layout of Generated App
 
-    client --------- main folder for this generator
-      src ---------- your app   
-        app -------- contains your app's code
-        assets ----- 
-        common
-        less
-      test
-        config
-        unit      
-        vendor    --->
-      vendor
-
-
+    client ------------- main folder for this generator (optional)
+      src -------------- source files of your app
+        app ------------ application specific code (divided into subfolders that represent parts of your app)
+        assets --------- favicon and images
+        common --------- modular angular files shared between different parts of your app
+            directives - angular directives
+            resources -- angular resources
+            security --- angular security
+            services --- angular services
+        styles --------- CSS or SASS files
+      test ------------- the tests for your app
+        config --------- configuration files
+        e2e ------------ end to end tests
+        unit ----------- unit tests      
+      vendor ----------- 3rd party packages installed by bower (bower components folder)

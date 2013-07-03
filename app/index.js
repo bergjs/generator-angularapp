@@ -8,11 +8,12 @@ var AngularappGenerator = module.exports = function AngularappGenerator(args, op
   yeoman.generators.Base.apply(this, arguments);
  
     this.on('end', function () {
-      this.bowerInstall(bowerPackages, { 
-        save: true 
-    });
+      
+      // this.bowerInstall(bowerPackages, { 
+      //   save: true 
+      // });
 
-    this.installDependencies({ skipInstall: options['skip-install'] });
+    // this.installDependencies({ skipInstall: options['skip-install'] });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -72,6 +73,9 @@ AngularappGenerator.prototype.src = function src() {
   }
   // general stylesheet
   this.template('_styles.less', 'src/stylesheets/styles.less');
+
+  this.copy('index.html', 'src/index.html')
+  this.copy('_app.js', 'src/app/app.js')
 };
 
 AngularappGenerator.prototype.test = function test() {
@@ -80,6 +84,7 @@ AngularappGenerator.prototype.test = function test() {
   this.mkdir('test/unit/common/directives');
   this.mkdir('test/unit/common/security');
   this.mkdir('test/unit/common/services');
+  this.mkdir('test/e2e');
 
   this.copy('_unit.js', 'test/config/unit.js');
 };
