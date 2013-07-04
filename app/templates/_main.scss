@@ -1,0 +1,10 @@
+<% if(bootstrap) { %>@import "bootstrap/bootstrap.scss";
+@import "bootstrap/bootstrap-responsive.scss";<% } %>
+
+// Custom styles
+
+@import "compass/css3";
+
+.box-shadow {
+  @include box-shadow(#888 10px 10px 5px);
+}

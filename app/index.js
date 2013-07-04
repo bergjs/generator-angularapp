@@ -1,4 +1,5 @@
-'use strict';
+/* jshint node:true */
+
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
@@ -13,7 +14,7 @@ var AngularappGenerator = module.exports = function AngularappGenerator(args, op
       //   save: true 
       // });
 
-    // this.installDependencies({ skipInstall: options['skip-install'] });
+      // this.installDependencies({ skipInstall: options['skip-install'] });
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -56,26 +57,34 @@ AngularappGenerator.prototype.askFor = function askFor() {
 
 AngularappGenerator.prototype.src = function src() {
   this.mkdir('src/app');
-  this.mkdir('src/assets/img');
+  this.mkdir('src/images');
+  
   this.mkdir('src/common/directives');
   this.mkdir('src/common/resources');
   this.mkdir('src/common/security');
   this.mkdir('src/common/services');
-  this.mkdir('src/stylesheets');
+  
+  this.mkdir('src/styles');
+  this.mkdir('src/styles/fonts');
+  this.mkdir('src/styles/bootstrap');
+
+  this.copy('_header.tpl.html', 'src/app/header.tpl.html');
+  this.copy('_main.tpl.html', 'src/app/main.tpl.html');
 
   this.template('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
   this.template('_Gruntfile.js', 'Gruntfile.js');
-  if(this.bootstrap) {
-    this.copy('_bootstrap.less', 'src/stylesheets/bootstrap.less');
-    this.copy('_variables.less', 'src/stylesheets/variables.less');
-    this.copy('_prefixer.less', 'src/stylesheets/prefixer.less');
-  }
-  // general stylesheet
-  this.template('_styles.less', 'src/stylesheets/styles.less');
+  
+  this.template('_main.scss', 'src/styles/main.scss');
 
-  this.copy('index.html', 'src/index.html')
-  this.copy('_app.js', 'src/app/app.js')
+  if(this.bootstrap) {
+    this.copy('_bootstrap.scss', 'src/styles/bootstrap/bootstrap.scss');
+    this.copy('_bootstrap-responsive.scss', 'src/styles/bootstrap/bootstrap-responsive.scss');
+    this.copy('_bootstrap-variables.scss', 'src/styles/bootstrap/bootstrap-variables.scss');
+  }
+
+  this.template('_index.html', 'src/index.html');
+  this.copy('_app.js', 'src/app/app.js');
 };
 
 AngularappGenerator.prototype.test = function test() {
@@ -101,7 +110,7 @@ AngularappGenerator.prototype.bowerFiles = function bowerFiles() {
     bowerPackages.push('angular-ui-bootstrap-bower');
   }
   if(this.bootstrap){
-    bowerPackages.push('bootstrap');
+    bowerPackages.push('sass-bootstrap');
   }
   bowerPackages.push('angular');
   bowerPackages.push('angular-mocks');

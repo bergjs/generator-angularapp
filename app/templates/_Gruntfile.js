@@ -1,3 +1,5 @@
+/* jshint node:true */
+
 module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -6,12 +8,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
+  grunt.registerTask('server', ['compass:server', 'connect:livereload:keepalive']);
   grunt.registerTask('default', ['jshint','build','karma:unit']);
   grunt.registerTask('build', ['clean','html2js','concat','recess:build','copy:assets']);
   grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
@@ -22,6 +26,10 @@ module.exports = function (grunt) {
     grunt.log.subhead(Date());
   });
 
+  var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+  };
+
   var karmaConfig = function(configFile, customOptions) {
     var options = { configFile: configFile, keepalive: true };
     var travisOptions = process.env.TRAVIS && { browsers: ['Firefox'], reporters: 'dots' };
@@ -31,33 +39,86 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     distdir: 'dist',
+    vendordir: 'vendor',
+    
+    staticpath: '/static', //HTTP static path
+
     pkg: grunt.file.readJSON('package.json'),
     banner:
     '/*! <%%= pkg.title || pkg.name %> - v<%%= pkg.version %> - <%%= grunt.template.today("yyyy-mm-dd") %>\n' +
     '<%%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
     ' * Copyright (c) <%%= grunt.template.today("yyyy") %> <%%= pkg.author %>;\n' +
     ' * Licensed <%%= _.pluck(pkg.licenses, "type").join(", ") %>\n */\n',
+
+
     src: {
+      root: 'src',
+      styles: 'src/styles',
+      images: 'src/images',
       js: ['src/**/*.js', '<%%= distdir %>/templates/**/*.js'],
       specs: ['test/**/*.spec.js'],
       scenarios: ['test/**/*.scenario.js'],
       html: ['src/index.html'],
-      less: ['src/stylesheets/styles.less'], // recess:build doesn't accept ** in its file patterns
       tpl: {
         app: ['src/app/**/*.tpl.html'],
         common: ['src/common/**/*.tpl.html']
       }
     },
+
     clean: ['<%%= distdir %>/*'],
+    
     copy: {
-      assets: {
-        files: [{ dest: '<%%= distdir %>', src : '**', expand: true, cwd: 'src/assets/' }]
+      images: {
+        files: [{ dest: '<%%= distdir %>', src : '**', expand: true, cwd: '<%%= src.images %>' }]
       }
     },
+
+    compass: {
+      options: {
+        sassDir: '<%%= src.styles %>',
+        specify: '<%%= src.styles %>/main.scss',
+        cssDir: '.tmp/styles',
+        generatedImagesDir: '.tmp/images/generated',
+        imagesDir: '<%%= src.images %>',
+        fontsDir: '<%%= src.styles %>/fonts',
+        importPath: '<%%= vendordir %>',
+        httpImagesPath: '<%%= staticpath %>/images',
+        httpGeneratedImagesPath: '<%%= staticpath %>/images/generated',
+        httpFontsPath: '<%%= staticpath %>/styles/fonts',
+        relativeAssets: false
+      },
+      dist: {},
+      server: {
+        options: {
+            debugInfo: true
+        }
+      }
+    },
+    
+    connect: {
+      options: {
+        port: 9000,
+        // change this to '0.0.0.0' to access the server from outside
+        hostname: 'localhost'
+      },
+      livereload: {
+        options: {
+          middleware: function (connect) {
+            return [
+              mountFolder(connect, '.tmp'),
+              mountFolder(connect, 'src'),
+              mountFolder(connect, 'vendor')
+            ];
+          }
+        }
+      }
+    },
+
     karma: {
       unit: { options: karmaConfig('test/config/unit.js') },
       watch: { options: karmaConfig('test/config/unit.js', { singleRun:false, autoWatch: true}) }
     },
+
     html2js: {
       app: {
         options: {
@@ -76,6 +137,7 @@ module.exports = function (grunt) {
         module: 'templates.common'
       }
     },
+    
     concat:{
       dist:{
         options: {
@@ -95,7 +157,6 @@ module.exports = function (grunt) {
         src:['vendor/angular/angular.js'],
         dest: '<%%= distdir %>/angular.js'
       },
-      
       ngBootstrap: {
         src:['vendor/angular-ui/bootstrap/*.js'],
         dest: '<%%= distdir %>/bootstrap.js'
@@ -105,6 +166,7 @@ module.exports = function (grunt) {
         dest: '<%%= distdir %>/jquery.js'
       }
     },
+    
     uglify: {
       dist:{
         options: {
@@ -126,24 +188,7 @@ module.exports = function (grunt) {
         dest: '<%%= distdir %>/jquery.js'
       }
     },
-    recess: {
-      build: {
-        files: {
-          '<%%= distdir %>/styles.css':
-          ['<%%= src.less %>'] },
-        options: {
-          compile: true
-        }
-      },
-      min: {
-        files: {
-          '<%%= distdir %>/styles.css': ['<%%= src.less %>']
-        },
-        options: {
-          compress: true
-        }
-      }
-    },
+
     watch:{
       all: {
         files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
@@ -154,6 +199,7 @@ module.exports = function (grunt) {
         tasks:['build','timestamp']
       }
     },
+    
     jshint:{
       files:['gruntFile.js', '<%%= src.js %>', '<%%= src.specs %>', '<%%= src.scenarios %>'],
       options:{
