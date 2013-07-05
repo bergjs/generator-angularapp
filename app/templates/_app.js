@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  
+
   /**
   * App Module
   *
@@ -22,4 +22,5 @@
   app.controller('MainCtrl', ['$scope', function ($scope) {
       // controller logic;
   }]);
+
 })();

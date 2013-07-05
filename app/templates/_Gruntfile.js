@@ -15,7 +15,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
-  grunt.registerTask('server', ['compass:server', 'connect:livereload:keepalive']);
+  grunt.registerTask('server', ['clean:server', 'compass:server', 'connect:server', 'watch']);
+  grunt.registerTask('test');
+
   grunt.registerTask('default', ['jshint','build','karma:unit']);
   grunt.registerTask('build', ['clean','html2js','concat','recess:build','copy:assets']);
   grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
@@ -40,8 +42,8 @@ module.exports = function (grunt) {
   grunt.initConfig({
     distdir: 'dist',
     vendordir: 'vendor',
-    
-    staticpath: '/static', //HTTP static path
+    srcdir: 'src',
+    tempdir: '.tmp',
 
     pkg: grunt.file.readJSON('package.json'),
     banner:
@@ -52,20 +54,32 @@ module.exports = function (grunt) {
 
 
     src: {
-      root: 'src',
-      styles: 'src/styles',
-      images: 'src/images',
-      js: ['src/**/*.js', '<%%= distdir %>/templates/**/*.js'],
+      styles: '<%%= srcdir %>/styles',
+      images: '<%%= srcdir %>/images',
+      js: ['<%%= srcdir %>/**/*.js', '<%%= distdir %>/templates/**/*.js'],
       specs: ['test/**/*.spec.js'],
       scenarios: ['test/**/*.scenario.js'],
-      html: ['src/index.html'],
+      html: ['<%%= srcdir %>/index.html'],
       tpl: {
-        app: ['src/app/**/*.tpl.html'],
-        common: ['src/common/**/*.tpl.html']
+        app: ['<%%= srcdir %>/app/**/*.tpl.html'],
+        common: ['<%%= srcdir %>/common/**/*.tpl.html']
       }
     },
 
-    clean: ['<%%= distdir %>/*'],
+    clean: {
+      server: ['<%%= tempdir %>/*'],
+      dist: ['<%%= distdir %>/*']
+    },
+
+    watch: {
+        options: {
+            nospawn: true
+        },
+        compass: {
+            files: ['<%%= src.styles %>/{,*/}*.{scss,sass}'],
+            tasks: ['compass:server']
+        }
+    },
     
     copy: {
       images: {
@@ -77,14 +91,11 @@ module.exports = function (grunt) {
       options: {
         sassDir: '<%%= src.styles %>',
         specify: '<%%= src.styles %>/main.scss',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
+        cssDir: '<%%= tempdir %>/styles',
+        generatedImagesDir: '<%%= tempdir %>/images/generated',
         imagesDir: '<%%= src.images %>',
         fontsDir: '<%%= src.styles %>/fonts',
         importPath: '<%%= vendordir %>',
-        httpImagesPath: '<%%= staticpath %>/images',
-        httpGeneratedImagesPath: '<%%= staticpath %>/images/generated',
-        httpFontsPath: '<%%= staticpath %>/styles/fonts',
         relativeAssets: false
       },
       dist: {},
@@ -101,7 +112,7 @@ module.exports = function (grunt) {
         // change this to '0.0.0.0' to access the server from outside
         hostname: 'localhost'
       },
-      livereload: {
+      server: {
         options: {
           middleware: function (connect) {
             return [
@@ -122,7 +133,7 @@ module.exports = function (grunt) {
     html2js: {
       app: {
         options: {
-          base: 'src/app'
+          base: '<%%= srcdir %>/app'
         },
         src: ['<%%= src.tpl.app %>'],
         dest: '<%%= distdir %>/templates/app.js',
@@ -130,7 +141,7 @@ module.exports = function (grunt) {
       },
       common: {
         options: {
-          base: 'src/common'
+          base: '<%%= srcdir %>/common'
         },
         src: ['<%%= src.tpl.common %>'],
         dest: '<%%= distdir %>/templates/common.js',
@@ -147,7 +158,7 @@ module.exports = function (grunt) {
         dest:'<%%= distdir %>/<%%= pkg.name %>.js'
       },
       index: {
-        src: ['src/index.html'],
+        src: ['<%%= srcdir %>/index.html'],
         dest: '<%%= distdir %>/index.html',
         options: {
           process: true
@@ -189,16 +200,16 @@ module.exports = function (grunt) {
       }
     },
 
-    watch:{
-      all: {
-        files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
-        tasks:['default','timestamp']
-      },
-      build: {
-        files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
-        tasks:['build','timestamp']
-      }
-    },
+    // watch:{
+    //   all: {
+    //     files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
+    //     tasks:['default','timestamp']
+    //   },
+    //   build: {
+    //     files:['<%%= src.js %>', '<%%= src.specs %>', '<%%= src.tpl.app %>', '<%%= src.tpl.common %>', '<%%= src.html %>'],
+    //     tasks:['build','timestamp']
+    //   }
+    // },
     
     jshint:{
       files:['gruntFile.js', '<%%= src.js %>', '<%%= src.specs %>', '<%%= src.scenarios %>'],
