@@ -1,6 +1,12 @@
 {
-  "name": "package",
-  "version": "0.0.0",
-  "dependencies": {}
+  "name": "<%= _.camelize(appName) %>",
+  "version": "0.1.0",
+  "dependencies": {<% if (bootstrap) { %>
+    "sass-bootstrap": "~2.3.2",<% if (angularBootstrap) { %>
+    "angular-bootstrap": "~0.4.0",
+    "angular-ui-bootstrap": "~0.4.0",<% } else { %>
+    "jquery": "~2.0.3", <% } } %>
+    "angular": ">=1",
+    "angular-mocks": "~1.0.7"
+  }
 }
-

@@ -7,7 +7,7 @@ files = [
   JASMINE_ADAPTER,
   'vendor/jquery/jquery.js',
   'vendor/angular/angular.js',
-  'vendor/angular/angular-mocks.js',
+  'vendor/angular-mocks/angular-mocks.js',
   'vendor/angular-ui/**/*.js',
   'src/**/*.js',
   'test/unit/**/*.spec.js',

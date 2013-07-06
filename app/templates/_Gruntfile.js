@@ -77,7 +77,7 @@ module.exports = function (grunt) {
         },
         compass: {
             files: ['<%%= src.styles %>/{,*/}*.{scss,sass}'],
-            tasks: ['compass:server']
+            tasks: ['compass:server', 'timestamp']
         }
     },
     
@@ -118,6 +118,8 @@ module.exports = function (grunt) {
             return [
               mountFolder(connect, '.tmp'),
               mountFolder(connect, 'src'),
+              mountFolder(connect, 'src/app'),
+              mountFolder(connect, 'src/common'),
               mountFolder(connect, 'vendor')
             ];
           }

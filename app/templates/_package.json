@@ -1,7 +1,7 @@
 {
   "author": "<%= process.env.GIT_AUTHOR_NAME %>",
   "name":  "<%= _.camelize(appName) %>",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "node": ">= 0.8.4"
   },
