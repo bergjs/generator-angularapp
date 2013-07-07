@@ -23,17 +23,19 @@ var AngularappGenerator = module.exports = function AngularappGenerator(args, op
           }, function() {
             if (self.angularBootstrap) {
               console.log('Copying angular-bootstrap templates...');
-              wrench.copyDirSyncRecursive('vendor/angular-ui-bootstrap/template', 'src/common/angular-bootstrap-tpl', {
+              wrench.copyDirSyncRecursive('vendor/angular-ui-bootstrap/template', 'src/common/angular-bootstrap/template', {
                 forceDelete: true,
                 preserveFiles: true
               });
               console.log('...done! Have fun!');
+            } else {
+              console.log('I\'m all done. Have fun!');
             }
           });
         }
       });
     } else {
-      console.log('Please run npm install and bower install to install all the dependencies. Have fun!');
+      console.log('Please run npm install and bower install to install all the dependencies. If you want to use angular-bootstrap you have to copy the html templates manually. Have fun!');
     }
   });
 
@@ -111,7 +113,7 @@ AngularappGenerator.prototype.src = function src() {
   }
 
   if(this.angularBootstrap) {
-    this.mkdir('src/common/angular-bootstrap-tpl');
+    this.mkdir('src/common/angular-bootstrap');
   }
 
   this.template('_index.html', 'src/index.html');

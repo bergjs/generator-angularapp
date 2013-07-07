@@ -132,6 +132,8 @@ module.exports = function (grunt) {
       watch: { options: karmaConfig('test/config/unit.js', { singleRun:false, autoWatch: true}) }
     },
 
+    // TODO: htmlmin
+
     html2js: {
       app: {
         options: {
