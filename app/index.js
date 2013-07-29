@@ -9,9 +9,9 @@ var AngularappGenerator = module.exports = function AngularappGenerator(args, op
  
     this.on('end', function () {
       
-      // this.bowerInstall(bowerPackages, { 
-      //   save: true 
-      // });
+      this.bowerInstall(bowerPackages, { 
+        save: true 
+      });
 
     // this.installDependencies({ skipInstall: options['skip-install'] });
   });
@@ -61,7 +61,7 @@ AngularappGenerator.prototype.src = function src() {
   this.mkdir('src/common/resources');
   this.mkdir('src/common/security');
   this.mkdir('src/common/services');
-  this.mkdir('src/less');
+  this.mkdir('src/styles');
 
   this.template('_package.json', 'package.json');
   this.copy('_bower.json', 'bower.json');
