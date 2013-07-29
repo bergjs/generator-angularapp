@@ -1,14 +1,13 @@
 {
   "author": "<%= process.env.GIT_AUTHOR_NAME %>",
   "name":  "<%= _.camelize(appName) %>",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "node": ">= 0.8.4"
   },
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.0",
-    "grunt-recess": "~0.3",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-copy": "~0.4.0",
     "grunt-contrib-jshint": "~0.2.0",
@@ -16,6 +15,9 @@
     "grunt-contrib-uglify": "~0.1.1",
     "grunt-karma": "~0.4.4",
     "grunt-html2js": "~0.1.0",
-    "grunt-contrib-watch": "~0.3.1"
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-shell": "~0.3.0",
+    "grunt-contrib-compass": "~0.3.0",
+    "grunt-contrib-connect": "~0.3.0"
   }
 }

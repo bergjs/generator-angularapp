@@ -1,13 +1,27 @@
-'use strict';
+(function () {
+  "use strict";
 
-angular.module('<%= _.camelize(appName) %>App', [])
-  .config(function ($routeProvider) {
+  /**
+  * App Module
+  *
+  */
+
+  var app = angular.module('<%= _.camelize(appName) %>', []);
+
+
+  app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'main.tpl.html',
         controller: 'MainCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
-  });
+  }]);
+
+  app.controller('MainCtrl', ['$scope', function ($scope) {
+      // controller logic;
+  }]);
+
+})();
